@@ -1,0 +1,74 @@
+// 📅 React Portfolio Project Plan with Redux, Hooks, and More
+
+// Phase 1: Project Setup (Day 1)
+// ----------------------------
+// ✅ Create Vite + React + TailwindCSS project
+// ✅ Setup folder structure
+// ✅ Install dependencies:
+//    - react-router-dom
+//    - redux, react-redux, @reduxjs/toolkit
+// ✅ Configure TailwindCSS + dark mode support
+
+
+// Phase 2: Core Layout & Routing (Day 2)
+// ------------------------------------
+// ✅ Build Navbar with navigation and dark mode toggle
+// ✅ Setup React Router for sections:
+//    - Home (Hero), Skills, Projects, Experience, Journey, Certificates, Contact
+
+
+// Phase 3: Hero & Global State Setup (Day 3)
+// -----------------------------------------
+// ✅ Create Hero component with props (name, bio, image, resume URL)
+// ✅ Create Redux slice for global profile data
+// ✅ Fetch data via Redux and use useSelector/useDispatch
+
+
+// Phase 4: Skills Section (Day 4)
+// ------------------------------
+// ✅ Create skills tabs (JS, DSA, Tailwind, Others)
+// ✅ Use props to render reusable SkillCard component
+// ✅ Add Explain button (Modal), Practice button (redirect to playground)
+// ✅ Use custom hooks for skill filtering
+
+
+// Phase 5: Projects Section (Day 5)
+// --------------------------------
+// ✅ Grid of project cards: title, desc, stack, demo, code
+// ✅ Use Redux for project data
+// ✅ Add modal for video demo preview
+
+
+// Phase 6: Experience, Journey, Certificates (Day 6)
+// --------------------------------------------------
+// ✅ Timeline or Card layout for experience
+// ✅ Journey section with vertical timeline (use map())
+// ✅ Certificates section with issuer, title, view link
+
+
+// Phase 7: Contact & Form Handling (Day 7)
+// ----------------------------------------
+// ✅ Build contact form: name, email, message
+// ✅ Use useState + custom hook for form validation
+// ✅ Optional: Integrate with email service like EmailJS or Formspree
+
+
+// Phase 8: Polish, Animations, and Final Touches (Day 8)
+// ------------------------------------------------------
+// ✅ Add framer-motion or AOS for animations
+// ✅ Responsive design check (mobile/tablet/desktop)
+// ✅ Add loading spinner using useEffect/useState
+// ✅ Optimize and deploy (Vercel/Netlify)
+
+
+// Optional Enhancements:
+// ----------------------
+// 🔹 Add a playground page with embedded code editor (e.g., CodeMirror/Monaco)
+// 🔹 Add theme toggle using Redux
+// 🔹 Add Testimonials or Blogs section
+
+// ⌛ Total Duration: 8 Days
+// 🔁 Reusable Components: SkillCard, ProjectCard, SectionWrapper
+// ✅ Technologies Used: React, Redux Toolkit, Hooks, Custom Hooks, Props, TailwindCSS
+
+// 🎯 Goal: Showcase full-stack readiness with structured portfolio + advanced concepts
