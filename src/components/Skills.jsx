@@ -1,77 +1,150 @@
-import React from 'react'
-import Navbar from './Navbar'
-import Footer from './Footer'
-import { playgroundData } from '../data/skills'
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+import { skillsData } from "../data/skillsData";
+import { Link } from "react-router-dom";
 
-const Skills = () => {
-  const [selectedTopic, setSelectedTopic] = React.useState(null);
+const categoryColors = {
+  DSA: "text-pink-600 border-pink-600",
+  JavaScript: "text-yellow-600 border-yellow-600",
+  React: "text-blue-600 border-blue-600",
+  TailwindCSS: "text-green-600 border-green-600",
+};
+
+const ITEMS_PER_PAGE = 5;
+
+const Playground = () => {
+  const mainTopics = Object.keys(skillsData);
+  const [activeTab, setActiveTab] = useState(mainTopics[0]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const filteredQuestions = Object.entries(skillsData[activeTab]).flatMap(
+    ([subtopic, questions]) =>
+      questions
+        .filter((q) =>
+          q.title.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .map((q) => ({ ...q, subtopic }))
+  );
+
+  const totalPages = Math.ceil(filteredQuestions.length / ITEMS_PER_PAGE);
+  const paginatedQuestions = filteredQuestions.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   return (
-    <div className="w-full h-screen bg-gradient-to-br from-blue-100 to-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white p-6">
+      <h1 className="text-4xl font-bold text-center mb-8">🚀 Dev Playground</h1>
 
-      <div className="flex-1  overflow-y-auto p-2">
-        <h1 className="text-3xl font-bold text-center mb-4">My Dev Playground</h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 h-full pb-4">
-          {Object.entries(playgroundData).map(([category, topics]) => (
-            <div key={category} className="bg-white p-2 rounded-xl shadow h-full">
-              <h2 className="text-2xl font-semibold mb-4 border-b pb-2">{category}</h2>
-
-              <div className="flex flex-wrap gap-2">
-                {topics.map((topic, idx) => (
-                  <Link
-                    key={idx}
-                    className="px-4 py-1 bg-blue-100 text-blue-700 text-sm rounded-full hover:bg-blue-200 transition"
-                    to ={`/playground/${topic.toLowerCase()}`}
-                  >
-                    {topic}
-                  </Link>
-                ))}
-              </div>
-
-            </div>
-          ))}
-        </div>
+      {/* Tabs */}
+      <div className="flex flex-wrap gap-4 justify-center mb-6">
+        {mainTopics.map((topic) => (
+          <button
+            key={topic}
+            onClick={() => {
+              setActiveTab(topic);
+              setSearchTerm("");
+              setCurrentPage(1);
+            }}
+            className={`px-4 py-2 rounded-full border font-semibold transition ${activeTab === topic
+              ? `bg-white shadow ${categoryColors[topic]}`
+              : "bg-gray-100 text-gray-700 border-gray-300"
+              }`}
+          >
+            {topic}
+          </button>
+        ))}
       </div>
 
-      {selectedTopic && (
-        <div className="fixed inset-0 bg-transparent bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-gray-100 rounded-lg shadow-lg p-6 min-w-[80%] min-h-[80%]">
-            <h2 className="text-xl font-bold mb-4">{selectedTopic}</h2>
-            <div>
-              <table className="w-full table-auto">
-                <thead>
-                  <tr>
-                    <th className="text-center">Sl. No</th>
-                    <th className="text-center">Description</th>
-                    <th className="text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="border-b p-2 text-center">01</td>
-                    <td className="border-b p-2 text-left">This is a detailed description of the {selectedTopic} topic.</td>
-                    <td className="border-b p-2 text-center">
-                      <button className='mr-1 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-100 py-2 px-4 '>Explain</button>
-                      <button className='ml-1 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-100  py-2 px-4'>Try</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <button
-              className="px-4 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-              onClick={() => setSelectedTopic(null)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Search */}
+      <div className="mb-4 max-w-md mx-auto">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleSearch}
+          placeholder="🔍 Search question title..."
+          className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+        />
+      </div>
+
+      {/* Table */}
+      <div className="bg-white p-6 rounded-xl shadow-md overflow-auto">
+        <table className="table-fixed w-full text-left border border-gray-300 rounded-xl overflow-hidden">
+          <thead className="bg-gray-100 text-gray-700">
+            <tr>
+              <th className="w-1/4 p-3 border-b">Question</th>
+              <th className="w-1/2 p-3 border-b">Description</th>
+              <th className="w-1/4 p-3 border-b">Subtopic</th>
+              <th className="w-1/4 p-3 border-b">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginatedQuestions.map((q, index) => (
+              <tr key={index} className="border-t hover:bg-gray-50">
+                <td className="p-3 font-medium text-gray-900 relative group">
+                  <span className="truncate block max-w-[200px]">{q.title}</span>
+                  <div className="absolute z-10 hidden group-hover:block bg-white text-sm text-gray-700 p-2 rounded shadow-lg border w-64  top-0 mt-1">
+                    {q.title}
+                  </div>
+                </td>
+
+                <td className="p-3 text-gray-600 relative group">
+                  <span className="truncate block max-w-[300px]">{q.description}</span>
+                  <div className="absolute z-10 hidden group-hover:block bg-white text-sm text-gray-700 p-2 rounded shadow-lg border w-72 top-0 mt-1">
+                    {q.description}
+                  </div>
+                </td>
+
+                <td className="p-3 text-blue-600">{q.subtopic}</td>
+                <td className="p-3 flex gap-2">
+                  <button
+                    onClick={() => alert(`Explain: ${q.title}`)}
+                    className="border border-blue-600 text-blue-600 hover:bg-blue-100 px-3 py-1 rounded-xl text-sm"
+                  >
+                    Explain
+                  </button>
+                  <button
+                    className="border border-green-600 text-green-600 hover:bg-green-100 px-3 py-1 rounded-xl text-sm"
+                  >
+                    Try
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {paginatedQuestions.length === 0 && (
+              <tr>
+                <td colSpan={4} className="text-center py-6 text-gray-500">
+                  No questions found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-6 flex justify-center gap-2 flex-wrap">
+        {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((pg) => (
+          <button
+            key={pg}
+            onClick={() => setCurrentPage(pg)}
+            className={`px-3 py-1 rounded-full border ${pg === currentPage
+              ? "bg-blue-600 text-white"
+              : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"
+              }`}
+          >
+            {pg}
+          </button>
+        ))}
+      </div>
     </div>
+  );
+};
 
-  )
-}
-
-export default Skills
+export default Playground;
