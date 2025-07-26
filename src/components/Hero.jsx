@@ -27,10 +27,10 @@ const Hero = ({ heroData }) => {
               View Projects
             </Link>
             <Link
-              to="/contact"
+              to="/aboutme"
               className="border border-blue-600 text-blue-600 px-6 py-3 rounded-xl hover:bg-blue-100 transition"
             >
-              Contact Me
+              About Me
             </Link>
             <button className="bg-white text-pink-600 hover:bg-pink-600 hover:text-white flex items-center gap-2 px-3 py-2 rounded shadow cursor-pointer">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor">

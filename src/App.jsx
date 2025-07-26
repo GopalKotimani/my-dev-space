@@ -5,13 +5,11 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Experience from './components/Experience';
 import Certificates from './components/Certificates';
-import Journey from './components/Journey';
-import Contact from './components/Contact';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import heroImage from './assets/profile_reference.jpg';
 import { useDispatch, useSelector } from 'react-redux';
-import Playground from './components/Playground';
+import AboutMe from './components/AboutMe';
 
 
 function App() {
@@ -30,9 +28,7 @@ function App() {
             <Route path="/projects" element={<Projects />} />
             <Route path="/experience" element={<Experience />} />
             <Route path="/certificates" element={<Certificates />} />
-            <Route path="/journey" element={<Journey />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/playground/:topic" element={<Playground />} />
+            <Route path="/aboutme" element={<AboutMe />} />
           </Routes>
         </main>
         <Footer />
